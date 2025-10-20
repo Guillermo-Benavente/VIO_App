@@ -1,0 +1,11 @@
+torch==2.6.0
+torchaudio==2.6.0
+torchvision
+flask
+imageio-ffmpeg
+librosa
+openai-whisper
+llama-cpp-python
+chatterbox-tts
+
+# pip install -r requirements.txt --index-url https://download.pytorch.org/whl/cu126
