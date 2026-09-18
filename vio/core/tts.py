@@ -26,7 +26,7 @@ class LocalTTS:
         print(f"[DEBUG] Selected device: {self.device}")
 
         # Load the multilingual model.
-        self.model = ChatterboxMultilingualTTS.from_pretrained(device=self.device)
+        self.model = ChatterboxMultilingualTTS.from_pretrained(device=self.device, t3_model="v3")
 
     def synthesize(self, text: str, *, speaker_wav: str | Path | None = None, language_id: str | None = None) -> Path:
         """
