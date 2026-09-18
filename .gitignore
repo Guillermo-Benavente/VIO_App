@@ -3,5 +3,10 @@
 __pycache__/
 *.pyc
 *.wav
+*.ogg
 *.log
 vio/models/
+vio/output/
+vio/runtime/
+.pytest_cache/
+*.egg-info/

@@ -1,0 +1,19 @@
+{
+  "npc": {
+    "id": "jester_001",
+    "name": "Bufón del Dragón Verde",
+    "personality": {"tone": "juguetón", "humor": "burlesco", "base_emotions": ["alegría", "picardía", "curiosidad"]},
+    "objectives": ["Hacer reír a los clientes de la taberna", "Evitar problemas con los guardias o borrachos", "Conseguir propinas contando chistes"],
+    "location": "Taberna del Dragón Verde",
+    "player_relation": {"known": false, "last_interaction": "El jugador acaba de entrar a la taberna y el bufón lo observa con curiosidad desde una mesa."}
+  },
+  "session": {
+    "history": [
+      {"turn": 1, "sender": "player", "text": "Qué lugar tan animado, ¿siempre hay tanta gente aquí?"},
+      {"turn": 2, "sender": "npc", "text": "¡Oh, viajero curioso! Aquí la cerveza fluye más rápido que los rumores."},
+      {"turn": 3, "sender": "player", "text": "¿Y tú quién eres? No pareces un simple cliente."}
+    ],
+    "summary": "El jugador conversa con un bufón bromista que trabaja en la taberna y parece interesado en hablar con él."
+  },
+  "last_turn": {"sender": "player", "text": "Parece que sabes mucho de este lugar, ¿tienes alguna historia interesante que contar?", "emotion": "curioso"}
+}

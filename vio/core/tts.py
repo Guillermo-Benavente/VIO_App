@@ -1,43 +1,53 @@
+import uuid
+from pathlib import Path
 import torch
 import torchaudio as ta
-from pathlib import Path
 from chatterbox.mtl_tts import ChatterboxMultilingualTTS
+from .config import Settings
 
-class TTSLocal:
+
+class LocalTTS:
     """
-    TTS local con Chatterbox Multilingual
-    - Zero-shot voice cloning (usar tu propia voz)
-    - Español y otros idiomas
+    Local TTS with Chatterbox Multilingual.
+    - Zero-shot voice cloning (use your own voice)
+    - Spanish and other languages
     """
 
-    def __init__(self, model_name: str = "chatterbox-0.5b", work_dir: str = "models/chatterbox"):
-        self.model_name = model_name
-        self.work_dir = Path(work_dir)
+    def __init__(self, config: Settings):
+        self.config = config
+        self.language = config.tts_language
+        self.speaker_wav = config.tts_voice
 
-        # Forzamos GPU
+        # Prefer GPU when available.
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         if self.device == "cpu":
-            print("[WARNING] No se detectó GPU, se usará CPU (puede ser lento)")
+            print("[WARNING] No GPU detected, will use CPU (may be slow)")
 
-        print(f"[DEBUG] Device seleccionado: {self.device}")
+        print(f"[DEBUG] Selected device: {self.device}")
 
-        # Cargamos modelo multilingüe
+        # Load the multilingual model.
         self.model = ChatterboxMultilingualTTS.from_pretrained(device=self.device)
 
-    def create_audio(self, text, speaker_wav=None, output_path="output.wav", language_id="es"):
+    def synthesize(self, text: str, *, speaker_wav: str | Path | None = None, language_id: str | None = None) -> Path:
         """
-        text: texto a sintetizar
-        speaker_wav: ruta a tu voz (zero-shot)
-        language_id: código de idioma, ej. "es"
+        Generate audio from text.
+        text: text to synthesize
+        output_path: output file path
+        language_id: language code, ej. "es"
         """
-        if speaker_wav and Path(speaker_wav).exists():
+        if not text.strip(): raise ValueError("TTS text cannot be empty")
+        lang = language_id or self.language
+        voice = Path(speaker_wav or self.speaker_wav) if (speaker_wav or self.speaker_wav) else None
+
+        if voice and voice.is_file():
             audio = self.model.generate(
                 text=text,
-                audio_prompt_path=speaker_wav,
-                language_id=language_id
+                audio_prompt_path=str(voice),
+                language_id=lang
             )
         else:
-            audio = self.model.generate(text=text, language_id=language_id)
+            audio = self.model.generate(text=text, language_id=lang)
 
-        ta.save(output_path, audio, self.model.sr)
+        output_path = self.config.output_dir / f"{uuid.uuid4().hex}.wav"
+        ta.save(str(output_path), audio.cpu(), self.model.sr)
         return output_path

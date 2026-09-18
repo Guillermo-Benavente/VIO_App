@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vio-local"
+version = "0.1.0"
+description = "Local, reusable speech-to-speech character dialogue pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["imageio-ffmpeg", "fastapi>=0.115", "uvicorn[standard]>=0.30", "python-multipart>=0.0.9"]
+
+[project.optional-dependencies]
+engines = ["torch==2.6.0", "torchaudio==2.6.0", "openai-whisper", "llama-cpp-python", "chatterbox-tts"]
+dev = ["pytest>=8", "httpx>=0.27"]
+
+[project.scripts]
+vio-api = "vio.main:app"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["vio*"]

@@ -1,0 +1,19 @@
+{
+  "npc": {
+    "id": "guard_001",
+    "name": "Guardia del castillo",
+    "personality": {"tone": "serio", "humor": "reservado", "base_emotions": ["desconfianza", "autoridad"]},
+    "objectives": ["No dejar pasar a desconocidos", "Mantener la seguridad del castillo"],
+    "location": "Puerta principal",
+    "player_relation": {"known": true, "last_interaction": "El jugador intentó entrar sin permiso."}
+  },
+  "session": {
+    "history": [
+      {"turn": 1, "sender": "player", "text": "Hola, ¿puedo pasar?"},
+      {"turn": 2, "sender": "npc", "text": "No, no tienes permiso para entrar."},
+      {"turn": 3, "sender": "player", "text": "Solo necesito hablar con el rey un momento."}
+    ],
+    "summary": "El jugador insiste en entrar al castillo sin permiso."
+  },
+  "last_turn": {"sender": "player", "text": "Vamos, solo necesito hablar con el rey, no tardaré nada.", "emotion": "persuasivo"}
+}
